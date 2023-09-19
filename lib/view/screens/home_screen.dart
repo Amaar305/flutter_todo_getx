@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => EditScreen()),
+        onPressed: () => Get.to(() => const EditScreen()),
         child: const Icon(Icons.add),
       ),
       body: GetBuilder<SQLController>(builder: (controller) {

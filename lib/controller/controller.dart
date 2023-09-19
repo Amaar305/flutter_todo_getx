@@ -54,7 +54,7 @@ class SQLController extends GetxController {
     for (var data in allData) {
       list.add(TodoModel.fromJson(data));
     }
-    debugPrint("$allData");
+    // debugPrint("$allData");
     update();
   }
 
@@ -96,9 +96,10 @@ class SQLController extends GetxController {
           'favourite': 0,
           'completed': 0,
         },
-        where: 'id = ${1}',
+        where: 'id = $id',
       );
       Get.back();
+      updatedTaskData = false;
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -115,6 +116,33 @@ class SQLController extends GetxController {
       where: 'id = $id',
     );
     getAllData();
+    update();
+  }
+
+  void updateFavData(int id, int favourite) async {
+    await database.update(
+      'todo',
+      {
+        'favourite': favourite,
+      },
+      where: 'id = $id',
+    );
+    getAllData();
+    update();
+  }
+
+  List<TodoModel> favTodo = [];
+  void fetchByFav() async {
+    var todos = await database.query(
+      'todo',
+      where: 'favourite = ${1}',
+    );
+
+    for (var todo in todos) {
+      favTodo.add(TodoModel.fromJson(todo));
+    }
+
+    debugPrint("Fav todo's ${todos.length}");
     update();
   }
 
